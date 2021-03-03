@@ -1,7 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../databases/database').sequelize;
-const Op = require('../databases/database').Op;
-
+import Sequelize from 'sequelize';
+import { sequelize } from '../databases/database';
 
 const Task = sequelize.define( 'task', {
     id: {
@@ -22,4 +20,4 @@ const Task = sequelize.define( 'task', {
     timestamps: false,
 });
 
-module.exports = Task;
+export default Task;

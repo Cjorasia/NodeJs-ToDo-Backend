@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../databases/database').sequelize;
-const Op = require('../databases/database').Op;
+import Sequelize from 'sequelize';
+import { sequelize } from '../databases/database';
+import Task from './Task';
 
-const Task =require ('./Task');
+// const Task =require ('./Task');
 
 
 const Todo = sequelize.define( 'todo', {
@@ -33,4 +33,4 @@ Todo.hasMany(Task, { foreignKey: 'todoid', sourceKey: 'id'});
 // task belong to one todo
 Task.belongsTo(Todo, { foreignKey: 'todoid', targetKey: 'id'}); 
  
-module.exports = Todo;
+export default Todo;

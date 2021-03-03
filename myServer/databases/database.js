@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize( 
+import Sequelize from 'sequelize';
+export const sequelize = new Sequelize( 
 
     'postgres', 
     'postgres',
@@ -16,9 +16,5 @@ const sequelize = new Sequelize(
         }
     });
 
-const Op = Sequelize.Op;
+export const Op = Sequelize.Op;
 
-module.exports = {
-    sequelize,
-    Op
-}

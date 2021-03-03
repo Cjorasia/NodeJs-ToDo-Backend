@@ -1,9 +1,11 @@
-const express = require("express");
-const router = express.Router(); 
+import express from "express";
+// const express = require("express");
+const router = express.Router();
 
 //Models
-const Todo = require('../models/Todo');
-const Task = require('../models/Task');
+import Todo from '../models/Task';
+import Task from '../models/Todo';
+import { isNumeric, isEmpty, isBoolean, isInt, toDate} from 'validator';
 
 // Insert
 router.post('/', async (req,res) => {
@@ -191,4 +193,4 @@ router.get('/:id', async (req,res) => {
     }
 });
 
-module.exports = router;
+export default router;

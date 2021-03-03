@@ -1,0 +1,5 @@
+{
+    "presets": [
+        "env" // means environment compatible with ES6 and Es7
+    ]
+}
