@@ -5,11 +5,23 @@ const router = express.Router();
 //Models
 import Todo from '../models/Task';
 import Task from '../models/Todo';
+import { isNumeric, isEmpty, isBoolean} from 'validator';
 
 // Insert
 router.post('/', async (req,res) => {
     try{
         let { todoid, name, isfinished} = req.body;
+
+           // Validation
+        if (!isNumeric(todoid) || isEmpty(name) || isBoolean(isfinished) ) {
+                        res.json({
+                        result: "failed",
+                        data: {},
+                        message: `name must not be empty, priority=0..2 dueDate must be yyyy-mm-dd`
+            });
+            return;
+        }
+
         let newTask = await Task.create({
             todoid,
             name,
@@ -46,7 +58,20 @@ router.post('/', async (req,res) => {
 // update
 router.put('/:id', async (req, res) => {
     let { id } =req.params;
+
+    // checking id
+if(!isNumeric(id)){
+    res.json({
+        result: "failed",
+        data: {},
+        message: `id must be a number`
+    });
+
+    return;
+}
+
     let { todoid, name , isfinished } = req.body;
+
     try{
         let tasks = await Task.findAll({
             attributes: ['id', 'todoid', "name", "isfinished"],
@@ -90,6 +115,17 @@ router.put('/:id', async (req, res) => {
 // Delete
 router.delete('/:id', async (req,res) => {
     let { id } = req.params;
+
+       // checking id
+if(!isNumeric(id)){
+    res.json({
+        result: "failed",
+        data: {},
+        message: `id must be a number`
+    });
+
+    return;
+}
     try {
         let numberOfDeletedRows = await Task.destroy({
             where: {
@@ -138,6 +174,17 @@ router.get('/', async (req, res) =>{
 // Query by id
 router.get('/todoid/:todoid', async (req, res) =>{
     let {todoid} = req.params;
+       // checking id
+        if(!isNumeric(todoid)){
+            res.json({
+                result: "failed",
+                data: {},
+                message: `todoid must be a number`
+            });
+
+            return;
+        }
+
     try {
         let tasks = await Task.findAll({
             attributes: ["id","todoid","name","isfinished"],

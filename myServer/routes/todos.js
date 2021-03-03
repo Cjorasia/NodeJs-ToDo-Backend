@@ -10,7 +10,19 @@ import { isNumeric, isEmpty, isBoolean, isInt, toDate} from 'validator';
 // Insert
 router.post('/', async (req,res) => {
     let { name, priority, description, duedate } = req.body;
+
+    // debug
     console.log(name,priority,description,duedate);
+
+    // Validation
+    if (isEmpty(name) || !isInt(priority, {min: 0, max: 2})
+                || toDate(duedate) ===null) {
+                    res.json({
+                        result: "failed",
+                        data: {},
+                        message: `name must not be empty, priority=0..2 dueDate must be yyyy-mm-dd`
+                    })
+                }
     
     try{
         
@@ -51,6 +63,15 @@ router.post('/', async (req,res) => {
 router.put('/:id', async(req,res) => {
     const {id} = req.params; // getting id from input link
     const { name, priority, description, duedate} = req.body; // getting more attribute from req.body
+
+    // id must be number
+    if (!isNumeric(id)){
+        res.json({
+            result: "failed",
+            data: {},
+            message: `id must be a number`
+        });
+    }
 
     try{
         let todos = await Todo.findAll({
