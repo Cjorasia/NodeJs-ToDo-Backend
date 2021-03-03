@@ -65,4 +65,48 @@ router.post('/register', async (req, res) => {
 });
 
 
+// Login User
+router.post('/login', async (req, res) => {
+  let {name , email } = req.body; //password must be compared with 'encoded password' from client
+  // console.log(`name: ${name}, password ${password}, email = ${email}, profileURL = ${profileURL}, gender = ${gender}, `)
+
+  if (isEmpty(name) || !isEmail(email)) {
+    res.json({
+      result: 'failed',
+      data: {},
+      message : `name must not be empty. EMail must be in correct format`
+    });
+  }
+  try{
+    let users = await User.findAll({
+      attributes: ["name", "password", "email", "profileurl", "gender","dob"],
+      where: {
+        name,
+        email
+      }
+    });
+    if (users.length >0){
+      res.json({
+        result: 'ok',
+        data: users[0],
+        message: `Login user successfully`
+      });
+    } else{
+      res.json({
+        result: "failed",
+        data: {},
+        message: `Cannot find user, check your name and email`
+      });
+    }
+
+  } catch(error){  
+      re.json({
+        result: "failed",
+        data: {},
+        message: `Login user failed. Error: ${error}`
+      });
+  }
+
+});
+
 export default router;
